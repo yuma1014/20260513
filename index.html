@@ -1,0 +1,223 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三義木雕藝品 | 雕刻時光，傳承工藝</title>
+
+    <!-- Google Analytics 4 (GA4) 追蹤碼開始 -->
+    <!-- 請將 G-XXXXXXXXXX 替換為你的衡量 ID -->
+    <script async src="https://www.googletag.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-XXXXXXXXXX', {
+            'send_page_view': true
+        });
+    </script>
+    <!-- Google Analytics 4 (GA4) 追蹤碼結束 -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- 變數設定 --- */
+        :root {
+            --primary-dark: #3E2723;
+            --primary-wood: #8D6E63;
+            --bg-rice: #FDFBF7;
+            --accent-red: #8B0000;
+            --text-main: #2C2C2C;
+            --white: #ffffff;
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        /* --- 基礎樣式 --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: var(--bg-rice); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Noto Serif TC', serif; font-weight: 900; color: var(--primary-dark); }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 100px 0; }
+        .btn { display: inline-block; padding: 12px 32px; background-color: var(--accent-red); color: var(--white); border: none; cursor: pointer; font-size: 1rem; transition: var(--transition); letter-spacing: 1px; }
+        .btn:hover { background-color: #a00000; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3); }
+
+        /* --- 導覽列 --- */
+        nav { position: fixed; top: 0; width: 100%; height: 80px; display: flex; align-items: center; z-index: 1000; transition: var(--transition); }
+        nav.scrolled { background-color: rgba(253, 251, 247, 0.95); height: 70px; box-shadow: var(--shadow); backdrop-filter: blur(10px); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { font-size: 1.5rem; font-family: 'Noto Serif TC', serif; color: var(--primary-dark); letter-spacing: 2px; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a:hover { color: var(--primary-wood); }
+        .cart-icon { position: relative; cursor: pointer; }
+        .cart-badge { position: absolute; top: -8px; right: -10px; background-color: var(--accent-red); color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; }
+
+        /* --- 首頁視覺區 --- */
+        .hero { height: 100vh; background: linear-gradient(rgba(62, 39, 35, 0.4), rgba(62, 39, 35, 0.4)), url('https://images.unsplash.com/photo-1590424753062-3251503f279e?auto=format&fit=crop&w=1920&q=80') center/cover; display: flex; justify-content: center; align-items: center; text-align: center; color: var(--white); }
+        .hero-content h1 { font-size: 4rem; color: var(--white); margin-bottom: 20px; letter-spacing: 8px; }
+
+        /* --- 產品展示區 --- */
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 40px; }
+        .product-card { background: var(--white); overflow: hidden; transition: var(--transition); }
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); }
+        .product-info { padding: 25px; text-align: center; }
+
+        /* --- 購物車側邊欄 --- */
+        .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; z-index: 2000; }
+        .cart-drawer { position: fixed; top: 0; right: -400px; width: 400px; height: 100%; background: var(--bg-rice); z-index: 2001; transition: var(--transition); padding: 40px; display: flex; flex-direction: column; }
+        .cart-drawer.active { right: 0; }
+        .cart-items { flex: 1; overflow-y: auto; }
+
+        /* --- 頁尾 --- */
+        footer { background-color: var(--primary-dark); color: rgba(255,255,255,0.7); padding: 60px 0; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="#" class="logo">三義木雕藝品</a>
+            <ul class="nav-links">
+                <li><a href="#hero">首頁</a></li>
+                <li><a href="#products">館藏藝品</a></li>
+                <li><a href="#about">工藝傳承</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                <span class="cart-badge" id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <h1>雕刻時光 · 傳承三義</h1>
+            <p>每一寸紋理，都是職人對木頭溫暖的傾訴</p>
+            <a href="#products" class="btn">立即探索</a>
+        </div>
+    </section>
+
+    <section class="container" id="products">
+        <div class="section-title"><h2>館藏精選</h2></div>
+        <div class="product-grid" id="product-container"></div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container" style="display: flex; gap: 50px; align-items: center;">
+            <div style="flex: 1;"><img src="https://images.unsplash.com/photo-1590424753245-420d1c7936a2?auto=format&fit=crop&w=800&q=80" alt="木雕工藝"></div>
+            <div style="flex: 1;">
+                <h2 style="margin-bottom: 20px;">職人精神，始於山林</h2>
+                <p>我們堅持選用優質的台灣檜木與樟木，讓大自然的鬼斧神工在職人的雙手中獲得第二次生命。</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+            <h3>購物車內容</h3>
+            <span style="cursor:pointer" onclick="toggleCart()">&times;</span>
+        </div>
+        <div class="cart-items" id="cart-items-list"></div>
+        <div style="margin-top: 30px; border-top: 1px solid #ddd; padding-top: 20px;">
+            <div style="display: flex; justify-content: space-between; font-weight: 600; margin-bottom: 20px;">
+                <span>總計金額</span>
+                <span id="cart-total-amount">NT$ 0</span>
+            </div>
+            <button class="btn" style="width: 100%;" onclick="checkout()">前往結帳</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 三義木雕藝品. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const products = [
+            { id: 1, name: "台灣檜木 · 禪修達摩", price: 18800, img: "https://images.unsplash.com/photo-1594914109433-28952cc6079c?auto=format&fit=crop&w=600&q=80" },
+            { id: 2, name: "肖楠木 · 聚寶盆", price: 12500, img: "https://images.unsplash.com/photo-1582266255765-fa5cf1a1d501?auto=format&fit=crop&w=600&q=80" },
+            { id: 3, name: "老樟木 · 雲龍戲珠", price: 32000, img: "https://images.unsplash.com/photo-1544413647-b515655bd5bf?auto=format&fit=crop&w=600&q=80" }
+        ];
+
+        let cart = [];
+
+        function initProducts() {
+            const container = document.getElementById('product-container');
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.img}" alt="${product.name}">
+                    <div class="product-info">
+                        <h3>${product.name}</h3>
+                        <p style="color: var(--primary-wood); margin: 10px 0;">NT$ ${product.price.toLocaleString()}</p>
+                        <button class="btn" onclick="addToCart(${product.id})">加入購物車</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            
+            // GA4 事件追蹤：加入購物車
+            if (typeof gtag === 'function') {
+                gtag('event', 'add_to_cart', {
+                    currency: 'TWD',
+                    value: product.price,
+                    items: [{
+                        item_id: product.id.toString(),
+                        item_name: product.name,
+                        price: product.price
+                    }]
+                });
+            }
+
+            updateCartUI();
+            toggleCart();
+        }
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const list = document.getElementById('cart-items-list');
+            let total = 0;
+            list.innerHTML = cart.map(item => {
+                total += item.price;
+                return `<div style="margin-bottom: 10px;">${item.name} - NT$ ${item.price.toLocaleString()}</div>`;
+            }).join('');
+            document.getElementById('cart-total-amount').innerText = `NT$ ${total.toLocaleString()}`;
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-drawer').classList.toggle('active');
+            const overlay = document.getElementById('cart-overlay');
+            overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function checkout() {
+            // GA4 事件追蹤：開始結帳
+            if (typeof gtag === 'function' && cart.length > 0) {
+                gtag('event', 'begin_checkout', {
+                    currency: 'TWD',
+                    value: cart.reduce((sum, item) => sum + item.price, 0),
+                    items: cart.map(item => ({ item_id: item.id, item_name: item.name }))
+                });
+            }
+            alert("已觸發結帳事件追蹤（模擬）。");
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+        });
+
+        window.onload = initProducts;
+    </script>
+</body>
+</html>
+
+```
